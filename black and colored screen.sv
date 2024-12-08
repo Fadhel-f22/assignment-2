@@ -47,7 +47,7 @@ counter_A2 #(.n(ny), .count_cond(res_cond_y)) counterY (
 
 always @ (*)
 begin
-    if (count_x >= 158)
+    if (count_x >= 159)
         w1 = 1'b1;
     else 
         w1 = 1'b0;
@@ -57,7 +57,7 @@ end
 
 always @ (*)
 begin
-    if (count_y >= 118)
+    if (count_y >= 119)
         w2 = 1'b1;
     else 
         w2 = 1'b0;
