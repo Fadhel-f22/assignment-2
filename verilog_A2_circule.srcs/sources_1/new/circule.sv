@@ -27,7 +27,8 @@ input logic loady,
 input logic [5:0] r,
 input logic ysel,
 input logic plot,
-output logic signed [5:0] d,
+input logic force_r,
+output logic signed [8:0] d,
 output logic [7:0] x,
 output logic [6:0] y,
 output logic done
@@ -38,16 +39,18 @@ output logic done
 
 
 logic xen , XlessY, compD;
-logic [n-1:0] counterxout, w1, w2, w3;
+logic [n-1:0] counterxout, w1, w2;
+logic [8:0]  w3, MUXrOrD;
 logic [6:0] counteryout;
-logic [5:0] shift1out, subout1,shift2out, MUXrOrD;
+logic [8:0] shift1out, subout1;
+logic signed [8:0] shift2out;
 logic [2:0] counter3;
 
 Counter #(.n(8)) counterx(
 .clk(clk),
 .addsub(1'b1),
 .en(xen),
-.reset(reset),
+.reset( force_r),
 .data('b0),
 .load(1'b0),
 .count(counterxout)
@@ -56,8 +59,8 @@ Counter #(.n(8)) counterx(
 Counter #(.n(7)) countery(
 .clk(clk),
 .addsub(1'b0),
-.en(~compD & xen),
-.reset(reset),
+.en(~compD & den),
+.reset(force_r),
 .data({'b0,r}),
 .load(loady),
 .count(counteryout)
@@ -69,13 +72,14 @@ Counter #(.n(3)) counter3bit(
 .clk(clk),
 .addsub(1'b1),
 .en(XlessY & plot),
-.reset(reset),
+.reset( force_r),
 .data('b0),
 .load(1'b0),
 .count(counter3)
     );
     
-    assign xen = (counter3 == 3'b111);
+    assign xen = (counter3 == 3'b110);
+    assign den = (counter3 == 3'b111);
     
 //Shift_reg #(.n(6))shift1(
 //.clk(clk),
@@ -87,7 +91,7 @@ Counter #(.n(3)) counter3bit(
 
 assign shift1out =  r << 1'b1;
 
-SUB #(.n(6)) s1(
+SUB #(.n(9)) s1(
 .A(3),
 .B(shift1out),
 .sub(subout1)
@@ -95,10 +99,10 @@ SUB #(.n(6)) s1(
     
     assign MUXrOrD = (ysel)? w3 :subout1;
     
-register #(.n(6)) regD(
+register #(.n(9)) regD(
 .clk(clk),
-.reset(reset),
-.en(xen | loady),
+.reset( force_r),
+.en(den | loady),
 .data(MUXrOrD),
 .out(d)
     );

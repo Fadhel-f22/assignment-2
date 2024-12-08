@@ -50,7 +50,7 @@ initial begin
 #10
     reset = 1'b1;
     color = 3'b101;
-    r = 6'b001010;
+    r = 6'b111010;
 #10
     start_c = 1'b1;   
 #10

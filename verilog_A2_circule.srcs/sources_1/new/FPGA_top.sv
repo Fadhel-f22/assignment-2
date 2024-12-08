@@ -73,7 +73,7 @@ circule_top(
 .clk(clk),
 .reset(reset_n),
 .start_c(BTNC),
-.r(SW[7:3]),
+.r(SW[8:3]),
 .color(SW[2:0]),
 .plot(plot),
 .x(count_x),

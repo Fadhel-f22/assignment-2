@@ -31,8 +31,8 @@ output logic [7:0] x,
 output logic [6:0] y
     );
     
-    wire ysel,done,loady;
-    wire [5:0] d;
+    wire ysel,done,loady , force_f;
+    wire [8:0] d;
     
 circule datapath(
 .clk(clk),
@@ -41,6 +41,7 @@ circule datapath(
 .r(r),
 .plot(plot),
 .ysel(ysel),
+.force_r(force_f),
 .x(x),
 .y(y),
 .d(d),
@@ -53,6 +54,7 @@ FSM_circule cu(
 .start_C(start_c),
 .done(done),
 .plot(plot),
+.force_f(force_f),
 .d(d),
 .yload(loady),
 .ysel(ysel)

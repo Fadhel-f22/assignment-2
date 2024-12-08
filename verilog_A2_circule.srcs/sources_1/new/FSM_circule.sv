@@ -25,7 +25,8 @@ input logic reset,
 input logic clk,
 input logic start_C,
 input logic done,
-input logic [5:0] d,
+input logic [8:0] d,
+output logic force_f,
 output logic plot,
 output logic yload,
 output logic ysel
@@ -69,6 +70,7 @@ begin
     plot = (current_state == S2)? 1'b1 : 1'b0;
     yload = (current_state == S1)? 1'b1 : 1'b0;
     ysel = (current_state == S2)? 1'b1 : 1'b0;
+    force_f = (current_state == IDLE)? 1'b0 : 1'b1;
 
 end
 
