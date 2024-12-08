@@ -20,16 +20,16 @@ logic [6:0] count_y;
 logic [2:0] color;
 logic plot;
 
-black_and_colored_screen BC (
-    .clk(CLK100MHZ),
-    .reset_n(CPU_RESETN), 
-    .start(SW[15]),
-    .sel_Black_Or_Color(SW[14]),
+TOP_Black_and_colored BC (
+    .clk(CLK100MHZ),            
+    .reset_n(CPU_RESETN),         
+    .start_black(SW[15]),
+    .start_color(SW[14]),
     .plot(plot),
-    .color(color),
-    .back(LED[3]),
-    .count_x(count_x),
-    .count_y(count_y));    
+    .x(count_x),
+    .y(count_y),
+    .color(color));
+    
     
     
 vga_core VGA (
@@ -44,6 +44,8 @@ vga_core VGA (
     .plot(plot),
     .clk(CLK100MHZ),
     .resetn(CPU_RESETN));
+
     
-    assign LED[2:0] = color;
+assign LED[2:0] = color;
+    
 endmodule
