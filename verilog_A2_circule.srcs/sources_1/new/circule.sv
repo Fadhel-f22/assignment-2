@@ -42,6 +42,7 @@ logic xen , XlessY, compD;
 logic [n-1:0] counterxout, w1, w2;
 logic [8:0]  w3, MUXrOrD;
 logic [6:0] counteryout;
+logic [5:0] compR;
 logic [8:0] shift1out, subout1;
 logic signed [8:0] shift2out;
 logic [2:0] counter3;
@@ -89,7 +90,9 @@ Counter #(.n(3)) counter3bit(
 //.out(shift1out)
 //    );
 
-assign shift1out =  r << 1'b1;
+assign compR = (r > 59 )? 59 : r;
+
+assign shift1out =  compR << 1'b1;
 
 SUB #(.n(9)) s1(
 .A(3),
